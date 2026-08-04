@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/services/app_preferences_service.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -30,17 +30,30 @@ class _SplashPageState extends State<SplashPage>
     _opacity = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _scale = Tween<double>(
-      begin: .92,
-      end: 1,
+      begin: 0.92,
+      end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
 
-    Timer(const Duration(seconds: 2), () {
-      if (!mounted) return;
+    _initialize();
+  }
 
+  Future<void> _initialize() async {
+    // Keep splash visible for 2 seconds
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    final completed = await AppPreferencesService.hasCompletedOnboarding();
+
+    if (!mounted) return;
+
+    if (completed) {
+      context.go('/dashboard');
+    } else {
       context.go('/onboarding');
-    });
+    }
   }
 
   @override
@@ -60,10 +73,10 @@ class _SplashPageState extends State<SplashPage>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset("assets/logo/dosenova_logo.png", width: 110),
+                Image.asset('assets/logo/dosenova_logo.png', width: 110),
                 const SizedBox(height: 24),
                 Text(
-                  "DoseNova",
+                  'DoseNova',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/splash/presentation/splash_page.dart';
 import '../../features/onboarding/presentation/onboarding_page.dart';
+import '../../features/dashboard/presentation/dashboard_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -10,6 +11,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: "/onboarding",
       builder: (context, state) => const OnboardingPage(),
+    ),
+    GoRoute(
+      path: '/dashboard',
+      builder: (context, state) => const DashboardPage(),
     ),
   ],
 );
