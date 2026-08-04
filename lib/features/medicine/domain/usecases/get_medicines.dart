@@ -1,0 +1,12 @@
+import '../entities/medicine.dart';
+import '../repositories/medicine_repository.dart';
+
+class GetMedicines {
+  final MedicineRepository repository;
+
+  const GetMedicines(this.repository);
+
+  Future<List<Medicine>> call() {
+    return repository.getMedicines();
+  }
+}
